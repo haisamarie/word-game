@@ -11,6 +11,7 @@ export const WORD_LIST = [
   "music",
   "ocean",
 ];
+export const MAX_FAILS = 5;
 
 export const getRandomElement = (words) => {
   const index = Math.floor(Math.random() * words.length);
