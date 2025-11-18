@@ -3,9 +3,14 @@ import { createHiddenState, updateRevealedState, validateInput, updateFailCount,
 import { WORD_LIST, MAX_FAILS, getRandomElement } from "./words.js";
 
 const displayGameState = (state) => {
-  console.log(state.currentState.join(" "));
+  console.log("\n" + state.currentState.join(" "));
   console.log(`残り失敗可能数: ${state.remainingFails}`);
-};
+  console.log(`使用済み文字: ${Array.from(state.guessedLetters).join(", ")}`);
+}
+
+const displayGameMessage = (message) => {
+  console.log(message);
+}
 
 const GameState = {
   word: getRandomElement(WORD_LIST),
@@ -21,20 +26,20 @@ const consoleInput = readline.createInterface({
   output: process.stdout
 });
 
-function ask() {
+function playTurn() {
   displayGameState(GameState);
 
   consoleInput.question("1文字入力してください: ", (input) => {
     if (!validateInput(input)) {
       console.log("アルファベット1文字を入力してください。");
-      return ask();
+      return playTurn();
     }
 
     const letter = input.toLowerCase();
 
     if (GameState.guessedLetters.has(letter)) {
       console.log("その文字はすでに入力されています。");
-      return ask();
+      return playTurn();
     }
 
     GameState.guessedLetters.add(letter);
@@ -43,19 +48,19 @@ function ask() {
     GameState.remainingFails = updateFailCount(GameState.word, letter, GameState.remainingFails);
 
     if (isWin(GameState.currentState)) {
-      console.log("正解です");
+      displayGameMessage("正解です。");
       consoleInput.close();
       return;
     }
 
     if (isLose(GameState.remainingFails)) {
-      displayGameMessage(`${MAX_FAILS}回間違えてしまったので不正解です。正解は "${GameState.word}"`);
+      displayGameMessage(`${MAX_FAILS}回間違えてしまったので不正解となります。正解は "${GameState.word}" でした。`);
       consoleInput.close();
       return;
     }
 
-    ask();
+    playTurn();
   });
 }
 
-ask();
+playTurn();
