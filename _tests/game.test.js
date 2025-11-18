@@ -1,4 +1,4 @@
-import { createHiddenState,updateRevealedState, validateInput ,isWin,isLose } from "../src/game";
+import { createHiddenState,updateRevealedState, validateInput ,updateFailCount,isWin,isLose } from "../src/game";
 
 describe("createHiddenState", () => {
  test("同じ文字数の'_'配列を返す", () => {
@@ -53,6 +53,30 @@ describe("validateInput", () => {
   });
 });
 
+
+describe("updateFailCount", () => {
+
+  test("単語内に推測文字が含まれている場合は失敗回数を減らさない", () => {
+    const result = updateFailCount("apple", "a", 5);
+    expect(result).toBe(5);
+  });
+
+  test("単語内に推測文字が含まれていない場合は失敗回数を1減らす", () => {
+    const result = updateFailCount("apple", "x", 5);
+    expect(result).toBe(4);
+  });
+
+  test("大文字小文字の差を無視して判定する", () => {
+    const result = updateFailCount("Apple", "A", 5);
+    expect(result).toBe(5);
+  });
+
+  test("残り回数が減るのは1回のみであること", () => {
+    const result = updateFailCount("apple", "z", 1);
+    expect(result).toBe(0);
+  });
+
+});
 
 describe("isWin", () => {
   test("全てのアンダースコアが開かれていれば true を返す", () => {
