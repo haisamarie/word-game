@@ -11,7 +11,8 @@ export const WORD_LIST = [
   "music",
   "ocean",
 ];
-export const chooseRandomWord = (words) => {
+
+export const getRandomElement = (words) => {
   const index = Math.floor(Math.random() * words.length);
   return words[index];
 }
