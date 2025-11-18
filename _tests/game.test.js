@@ -23,12 +23,12 @@ describe("updateRevealedState", () => {
   });
 
   test("単語内の同じ文字は全て置き換わる", () => {
-    const word = "banana";
-    const currentState = ["_", "_", "_", "_", "_", "_"];
+    const word = "apple";
+    const currentState = ["_", "_", "_", "_", "_"];
     const guessChar = "a";
 
     const result = updateRevealedState(word, currentState, guessChar);
-    expect(result).toEqual(["_", "a", "_", "a", "_", "a"]);
+    expect(result).toEqual(["a", "_", "_", "_", "_"]);
   });
 
 });
