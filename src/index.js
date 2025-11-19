@@ -1,5 +1,5 @@
 import readline from "readline";
-import { createHiddenState, updateRevealedState, validateInput, updateFailCount, isWin, isLose } from "./game.js";
+import { createHiddenState, updateRevealedState, validateInput, updateFailCount, isCorrect, isIncorrect } from "./game.js";
 import { WORD_LIST, MAX_FAILS, getRandomElement } from "./words.js";
 
 const displayGameState = (state) => {
@@ -47,13 +47,13 @@ function playTurn() {
     GameState.currentState = updateRevealedState(GameState.word, GameState.currentState, letter);
     GameState.remainingFails = updateFailCount(GameState.word, letter, GameState.remainingFails);
 
-    if (isWin(GameState.currentState)) {
+    if (isCorrect(GameState.currentState)) {
       displayGameMessage("正解です。");
       consoleInput.close();
       return;
     }
 
-    if (isLose(GameState.remainingFails)) {
+    if (isIncorrect(GameState.remainingFails)) {
       displayGameMessage(`${MAX_FAILS}回間違えてしまったので不正解となります。正解は "${GameState.word}" でした。`);
       consoleInput.close();
       return;

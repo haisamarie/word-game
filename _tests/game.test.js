@@ -1,4 +1,4 @@
-import { createHiddenState,updateRevealedState, validateInput ,updateFailCount,isWin,isLose } from "../src/game";
+import { createHiddenState,updateRevealedState, validateInput ,updateFailCount,isCorrect,isIncorrect } from "../src/game";
 
 describe("createHiddenState", () => {
  test("同じ文字数の'_'配列を返す", () => {
@@ -78,26 +78,26 @@ describe("updateFailCount", () => {
 
 });
 
-describe("isWin", () => {
+describe("isCorrect", () => {
   test("全てのアンダースコアが開かれていれば true を返す", () => {
     const currentState = ["a", "p", "p", "l", "e"];
-    expect(isWin(currentState)).toBe(true);
+    expect(isCorrect(currentState)).toBe(true);
   });
 
   test("まだアンダースコアが残っていれば false を返す", () => {
     const currentState = ["a", "p", "_", "l", "e"];
-    expect(isWin(currentState)).toBe(false);
+    expect(isCorrect(currentState)).toBe(false);
   });
 
 });
 
-describe("isLose", () => {
+describe("isIncorrect", () => {
   test("残り失敗回数が0なら true を返す", () => {
-    expect(isLose(0)).toBe(true);
+    expect(isIncorrect(0)).toBe(true);
   });
 
   test("残り失敗回数が1以上なら false を返す", () => {
-    expect(isLose(1)).toBe(false);
-    expect(isLose(5)).toBe(false);
+    expect(isIncorrect(1)).toBe(false);
+    expect(isIncorrect(5)).toBe(false);
   });
 });
